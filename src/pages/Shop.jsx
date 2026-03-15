@@ -1,21 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { products, categories } from "../data/products";
 import ProductCard from "../components/ProductCard";
 
 export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialCategory = searchParams.get("category") || "All";
-  const [activeCategory, setActiveCategory] = useState(initialCategory);
+  const activeCategory = searchParams.get("category") || "All";
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    const cat = searchParams.get("category") || "All";
-    setActiveCategory(cat);
-  }, [searchParams]);
-
   const handleCategory = (cat) => {
-    setActiveCategory(cat);
     if (cat === "All") {
       setSearchParams({});
     } else {

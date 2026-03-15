@@ -2,6 +2,25 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
+function InputField({ label, name, type = "text", placeholder, value, onChange, error }) {
+  return (
+    <div>
+      <label className="block text-sm font-semibold text-gray-700 mb-1">{label}</label>
+      <input
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 ${
+          error ? "border-red-400" : "border-gray-200"
+        }`}
+      />
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+    </div>
+  );
+}
+
 export default function Checkout() {
   const { cart, cartTotal, clearCart } = useCart();
   const [form, setForm] = useState({ name: "", email: "", address: "", city: "", zip: "", country: "" });
@@ -66,23 +85,6 @@ export default function Checkout() {
     );
   }
 
-  const InputField = ({ label, name, type = "text", placeholder }) => (
-    <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-1">{label}</label>
-      <input
-        type={type}
-        name={name}
-        value={form[name]}
-        onChange={handleChange}
-        placeholder={placeholder}
-        className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 ${
-          errors[name] ? "border-red-400" : "border-gray-200"
-        }`}
-      />
-      {errors[name] && <p className="text-red-500 text-xs mt-1">{errors[name]}</p>}
-    </div>
-  );
-
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <h1 className="text-3xl font-bold text-gray-800 mb-8">Checkout</h1>
@@ -92,19 +94,19 @@ export default function Checkout() {
           <div className="bg-white rounded-2xl shadow p-6">
             <h2 className="text-lg font-bold text-gray-800 mb-4">Contact Information</h2>
             <div className="space-y-4">
-              <InputField label="Full Name" name="name" placeholder="Jane Doe" />
-              <InputField label="Email Address" name="email" type="email" placeholder="jane@example.com" />
+              <InputField label="Full Name" name="name" placeholder="Jane Doe" value={form.name} onChange={handleChange} error={errors.name} />
+              <InputField label="Email Address" name="email" type="email" placeholder="jane@example.com" value={form.email} onChange={handleChange} error={errors.email} />
             </div>
           </div>
           <div className="bg-white rounded-2xl shadow p-6">
             <h2 className="text-lg font-bold text-gray-800 mb-4">Billing Address</h2>
             <div className="space-y-4">
-              <InputField label="Street Address" name="address" placeholder="123 Main Street" />
+              <InputField label="Street Address" name="address" placeholder="123 Main Street" value={form.address} onChange={handleChange} error={errors.address} />
               <div className="grid grid-cols-2 gap-4">
-                <InputField label="City" name="city" placeholder="New York" />
-                <InputField label="ZIP / Postal Code" name="zip" placeholder="10001" />
+                <InputField label="City" name="city" placeholder="New York" value={form.city} onChange={handleChange} error={errors.city} />
+                <InputField label="ZIP / Postal Code" name="zip" placeholder="10001" value={form.zip} onChange={handleChange} error={errors.zip} />
               </div>
-              <InputField label="Country" name="country" placeholder="United States" />
+              <InputField label="Country" name="country" placeholder="United States" value={form.country} onChange={handleChange} error={errors.country} />
             </div>
           </div>
           <button
