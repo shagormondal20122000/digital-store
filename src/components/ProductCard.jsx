@@ -25,7 +25,11 @@ export default function ProductCard({ product }) {
         </Link>
         <p className="text-gray-500 text-sm mb-3 line-clamp-2 flex-1">{product.description}</p>
         <div className="flex items-center gap-1 mb-3">
-          <span className="text-yellow-400 text-sm">{"★".repeat(Math.round(product.rating))}</span>
+          <span className="text-sm leading-none">
+            {Array.from({ length: 5 }, (_, i) => (
+              <span key={i} className={i < Math.round(product.rating) ? "text-yellow-400" : "text-gray-300"}>★</span>
+            ))}
+          </span>
           <span className="text-gray-500 text-xs">({product.reviews.toLocaleString()})</span>
         </div>
         <div className="flex items-center justify-between mt-auto">

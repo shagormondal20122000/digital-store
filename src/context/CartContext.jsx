@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
+import { createContext, useContext, useReducer, useEffect, useState, useCallback } from "react";
 
 const CartContext = createContext();
 
@@ -43,12 +43,22 @@ export function CartProvider({ children }) {
       }
     }
   );
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     localStorage.setItem("digitalstore_cart", JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (product) => dispatch({ type: "ADD_ITEM", payload: product });
+  const showToast = useCallback((msg) => {
+    setToast(null);
+    // small delay so repeated adds re-trigger the animation
+    setTimeout(() => setToast(msg), 10);
+  }, []);
+
+  const addToCart = (product) => {
+    dispatch({ type: "ADD_ITEM", payload: product });
+    showToast(`"${product.name}" added to cart`);
+  };
   const removeFromCart = (id) => dispatch({ type: "REMOVE_ITEM", payload: id });
   const updateQuantity = (id, quantity) => {
     if (quantity < 1) return removeFromCart(id);
@@ -60,7 +70,7 @@ export function CartProvider({ children }) {
   const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, cartCount, cartTotal }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, cartCount, cartTotal, toast, clearToast: () => setToast(null) }}>
       {children}
     </CartContext.Provider>
   );

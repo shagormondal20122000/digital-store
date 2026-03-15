@@ -44,7 +44,11 @@ export default function ProductDetail() {
           </span>
           <h1 className="text-3xl font-extrabold text-gray-900 mb-3">{product.name}</h1>
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-yellow-400 text-lg">{"★".repeat(Math.round(product.rating))}</span>
+            <span className="text-lg leading-none">
+              {Array.from({ length: 5 }, (_, i) => (
+                <span key={i} className={i < Math.round(product.rating) ? "text-yellow-400" : "text-gray-300"}>★</span>
+              ))}
+            </span>
             <span className="text-gray-500 text-sm font-medium">{product.rating} ({product.reviews.toLocaleString()} reviews)</span>
           </div>
           <p className="text-gray-600 text-base leading-relaxed mb-6">{product.description}</p>

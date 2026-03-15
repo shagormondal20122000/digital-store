@@ -1,6 +1,6 @@
 # DigitalStore
 
-A modern, full-featured digital products store built with **React 18**, **Vite**, **TailwindCSS**, and **React Router v6**.
+A modern, full-featured digital products store built with **React 19**, **Vite**, **TailwindCSS**, and **React Router v7**.
 
 ## Features
 
@@ -25,10 +25,10 @@ A modern, full-featured digital products store built with **React 18**, **Vite**
 
 | Technology | Purpose |
 |---|---|
-| React 18 | UI framework |
+| React 19 | UI framework |
 | Vite | Build tool |
 | TailwindCSS | Styling |
-| React Router v6 | Client-side routing |
+| React Router v7 | Client-side routing |
 | Context API + useReducer | Cart state management |
 | localStorage | Cart persistence |
 
